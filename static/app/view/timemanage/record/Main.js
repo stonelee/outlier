@@ -7,8 +7,10 @@ Ext.define('Outlier.view.timemanage.record.Main', {
 		xtype: 'timemanage_record_tab'
 	}],
 	tbar: [{
-		xtype: 'button',
-		text: 'idf'
+		xtype: 'datefield',
+		fieldLabel: '选择日期',
+		name: 'date',
+		value: new Date()
 	}]
 });
 
