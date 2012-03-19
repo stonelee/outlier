@@ -4,8 +4,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # url(r'^$', 'outlier.views.home', name='home'),
-    url(r'^timemanage/', include('outlier.timemanage.urls')),
+    (r'^$', 'timemanage.views.index'),
+    url(r'^timemanage/', include('timemanage.urls')),
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
