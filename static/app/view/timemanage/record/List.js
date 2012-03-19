@@ -23,6 +23,16 @@ Ext.define('Outlier.view.timemanage.record.List', {
 		header: 'content',
 		dataIndex: 'content',
 		flex: 1
+	}],
+	tbar: [{
+		xtype: 'displayfield',
+		fieldLabel: '当前日期',
+		labelWidth: 60,
+		width: 200
+	},
+	'-', {
+		xtype: 'button',
+		text: 'add'
 	}]
 });
 

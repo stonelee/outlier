@@ -105,6 +105,9 @@ Ext.define('Outlier.controller.timemanage.Record', {
 			tab.add({
 				xtype: 'timemanage_record_list'
 			});
+
+			var date = Ext.Date.format(tab.date, 'Y-m-d');
+			tab.down('displayfield').setValue(date);
 		});
 	},
 
