@@ -2,7 +2,8 @@ Ext.define('Outlier.view.Viewport', {
 	extend: 'Ext.container.Viewport',
 	layout: 'fit',
 
-	requires: ['Outlier.view.Side', 'Outlier.view.Main'],
+	//requires: ['Outlier.view.Side', 'Outlier.view.Main'],
+	requires: ['Outlier.view.Side', 'Outlier.view.Test'],
 
 	initComponent: function() {
 		this.items = {
@@ -17,7 +18,8 @@ Ext.define('Outlier.view.Viewport', {
 				region: 'west'
 			},
 			{
-				xtype: 'main',
+				//xtype: 'main',
+				xtype: 'test',
 				region: 'center'
 			},
 			{
