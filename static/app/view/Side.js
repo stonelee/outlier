@@ -1,7 +1,12 @@
 Ext.define('Outlier.view.Side', {
-	extend: 'Ext.panel.Panel',
+	extend: 'Ext.tree.Panel',
 	alias: 'widget.side',
-	layout: 'fit',
-	html: 'side'
+	title: 'menus',
+	store: 'Menus',
+	split: true,
+	width: 150,
+	minWidth: 150,
+	rootVisible: false,
+	autoScroll: true
 });
 

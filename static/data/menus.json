@@ -1,0 +1,13 @@
+[{
+    text:'time manage',
+    expanded: true,
+    children:[{
+        text:'record',
+        id:'timemanage_record',
+        leaf:true
+    },{
+        text:'analyse',
+        id:'timemanage_analyse',
+        leaf:true
+    }]
+}]
