@@ -3,10 +3,13 @@ Ext.define('Outlier.view.Side', {
 	alias: 'widget.side',
 	title: 'menus',
 	store: 'Menus',
-	split: true,
-	width: 150,
-	minWidth: 150,
 	rootVisible: false,
-	autoScroll: true
+	autoScroll: true,
+
+	width: 150,
+	minWidth: 130,
+	margin: '2 0 2 0',
+	split: true,
+	collapsible: true
 });
 

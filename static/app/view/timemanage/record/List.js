@@ -2,6 +2,7 @@ Ext.define('Outlier.view.timemanage.record.List', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.timemanage_record_list',
 	layout: 'fit',
+	border: 0,
 	store: 'timemanage.Records',
 	columns: [{
 		header: 'startTime',
