@@ -6,11 +6,13 @@ Ext.define('Outlier.model.timemanage.Record', {
 	},
 	{
 		name: 'startTime',
-		type: 'date'
+		type: 'date',
+		dateFormat: 'c'
 	},
 	{
 		name: 'endTime',
-		type: 'date'
+		type: 'date',
+		dateFormat: 'c'
 	},
 	{
 		name: 'tag',

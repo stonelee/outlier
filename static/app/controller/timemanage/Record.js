@@ -90,16 +90,12 @@ Ext.define('Outlier.controller.timemanage.Record', {
 	//得到date所在整个星期的7个日期组成的数组
 	getDatesOfWeek: function(date) {
 		var day = this.getDay(date),
-		idate = date.getDate(),
 		i,
 		d,
-		index,
-		now = new Date(),
 		results = [];
 
 		for (i = 0; i < 7; i++) {
-			index = idate + i - day;
-			d = new Date(now.setDate(index));
+			d = this.modifyDay(date, (i - day));
 			results.push(d);
 		}
 		return results;
@@ -157,7 +153,8 @@ Ext.define('Outlier.controller.timemanage.Record', {
 
 	//改变日期,+num天
 	modifyDay: function(date, num) {
-		return new Date(new Date().setDate(date.getDate() + num));
+		var d = new Date(new Date().setDate(date.getDate() + num));
+		return Ext.Date.clearTime(d);
 	},
 
 	onTabChange: function(panel, newCard, oldCard) {
@@ -181,7 +178,7 @@ Ext.define('Outlier.controller.timemanage.Record', {
 
 		var store = this.getTimemanageRecordsStore();
 		store.insert(0, {
-			id: -1
+			id: - 1
 		});
 
 		gridRowEditing.startEdit(0, 0);
