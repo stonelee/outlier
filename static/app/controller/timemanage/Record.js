@@ -51,16 +51,26 @@ Ext.define('Outlier.controller.timemanage.Record', {
 	//更新tab
 	updateTab: function(date) {
 		this.setDateInTab(date);
-		this.setActiveTab(date);
-		this.createGrid();
+
+		var day = this.getDay(date),
+		tab = this.getTab();
+		if (tab.items.indexOf(tab.getActiveTab()) === day) {
+			this.loadStoreOfWeek(this.createGrid);
+		}
+		else {
+			this.loadStoreOfWeek(function() {
+				tab.setActiveTab(day);
+			});
+		}
 	},
 
-	//在每个tab中保存日期
+	//在每个tab中保存日期,在tab中保存整个星期的日期
 	setDateInTab: function(date) {
 		var dates = this.getDatesOfWeek(date),
 		tab = this.getTab(),
 		i;
 
+		tab.dates = dates;
 		for (i = 0; i < 7; i++) {
 			tab.items.getAt(i).date = dates[i];
 		}
@@ -90,42 +100,56 @@ Ext.define('Outlier.controller.timemanage.Record', {
 		return day === 0 ? 6: day - 1;
 	},
 
-	setActiveTab: function(date) {
-		var day = this.getDay(date);
-		var tab = this.getTab();
-		tab.setActiveTab(day);
-	},
-
-	createGrid: function() {
-		var me = this;
-		this.loadStoreOfDate(function() {
-			var tab = me.getTab().getActiveTab();
-
-			tab.removeAll();
-			tab.add({
-				xtype: 'timemanage_record_list'
-			});
-
-			var date = Ext.Date.format(tab.date, 'Y-m-d');
-			tab.down('displayfield').setValue(date);
-		});
-	},
-
-	loadStoreOfDate: function(callback) {
+	loadStoreOfWeek: function(callback) {
 		var store = this.getTimemanageRecordsStore(),
 		extraParams = store.getProxy().extraParams,
-		date = this.getTab().getActiveTab().date,
-		startDate = date,
-		endDate = new Date(new Date().setDate(date.getDate() + 1));
+		tab = this.getTab(),
+		startDate = tab.dates[0],
+		endDate = tab.dates[6];
+		endDate = this.modifyDay(tab.dates[6],1);
 
 		extraParams.startTime__gte = Ext.Date.format(startDate, 'Y-m-d');
 		extraParams.endTime__lte = Ext.Date.format(endDate, 'Y-m-d');
-		store.load(callback);
+		store.load({
+			scope: this,
+			callback: callback
+		});
+	},
+
+	createGrid: function() {
+		var store = this.getTimemanageRecordsStore(),
+		tab = this.getTab().getActiveTab(),
+		date = tab.date,
+		startDate = date,
+		endDate = this.modifyDay(date,1);
+
+		store.clearFilter();
+		store.filter([{
+			filterFn: function(item) {
+				return item.get("startTime") >= startDate;
+			}
+		},
+		{
+			filterFn: function(item) {
+				return item.get("endTime") <= endDate;
+			}
+		}]);
+
+		tab.removeAll();
+		tab.add({
+			xtype: 'timemanage_record_list'
+		});
+
+		var displayDate = Ext.Date.format(date, 'Y-m-d');
+		tab.down('displayfield').setValue(displayDate);
+	},
+
+	//改变日期,+num天
+	modifyDay:function(date,num){
+		return new Date(new Date().setDate(date.getDate() + num));
 	},
 
 	onTabChange: function(panel, newCard, oldCard) {
-		var date = newCard.date;
-
 		oldCard.removeAll();
 		this.createGrid();
 	},
