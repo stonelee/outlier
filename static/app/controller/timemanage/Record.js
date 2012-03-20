@@ -10,6 +10,10 @@ Ext.define('Outlier.controller.timemanage.Record', {
 	{
 		selector: 'timemanage_record_main datefield',
 		ref: 'datefield'
+	},
+	{
+		selector: 'timemanage_record_list',
+		ref: 'grid'
 	}],
 
 	init: function() {
@@ -20,6 +24,12 @@ Ext.define('Outlier.controller.timemanage.Record', {
 			},
 			'timemanage_record_main datefield': {
 				change: this.onChangeDate
+			},
+			'timemanage_record_list button[action=add]': {
+				click: this.onAddRecord
+			},
+			'timemanage_record_list button[action=del]': {
+				click: this.onDelRecord
 			}
 		});
 	},
@@ -43,7 +53,8 @@ Ext.define('Outlier.controller.timemanage.Record', {
 
 		for (i = 0; i < length; i++) {
 			tab.add({
-				title: '星期' + titles[i]
+				title: '星期' + titles[i],
+				layout: 'fit'
 			});
 		}
 	},
@@ -106,7 +117,7 @@ Ext.define('Outlier.controller.timemanage.Record', {
 		tab = this.getTab(),
 		startDate = tab.dates[0],
 		endDate = tab.dates[6];
-		endDate = this.modifyDay(tab.dates[6],1);
+		endDate = this.modifyDay(tab.dates[6], 1);
 
 		extraParams.startTime__gte = Ext.Date.format(startDate, 'Y-m-d');
 		extraParams.endTime__lte = Ext.Date.format(endDate, 'Y-m-d');
@@ -121,7 +132,7 @@ Ext.define('Outlier.controller.timemanage.Record', {
 		tab = this.getTab().getActiveTab(),
 		date = tab.date,
 		startDate = date,
-		endDate = this.modifyDay(date,1);
+		endDate = this.modifyDay(date, 1);
 
 		store.clearFilter();
 		store.filter([{
@@ -145,7 +156,7 @@ Ext.define('Outlier.controller.timemanage.Record', {
 	},
 
 	//改变日期,+num天
-	modifyDay:function(date,num){
+	modifyDay: function(date, num) {
 		return new Date(new Date().setDate(date.getDate() + num));
 	},
 
@@ -159,6 +170,36 @@ Ext.define('Outlier.controller.timemanage.Record', {
      */
 	onChangeDate: function(field, value) {
 		this.updateTab(value);
+	},
+
+	/*
+	 *list
+	 */
+	onAddRecord: function() {
+		var gridRowEditing = this.getGrid().rowEditing;
+		gridRowEditing.cancelEdit();
+
+		var store = this.getTimemanageRecordsStore();
+		store.insert(0, {
+			id: -1
+		});
+
+		gridRowEditing.startEdit(0, 0);
+	},
+
+	onDelRecord: function() {
+		var grid = this.getGrid(),
+		store = this.getTimemanageRecordsStore();
+
+		grid.rowEditing.cancelEdit();
+
+		Ext.MessageBox.confirm('友情提示', '确定删除?', function(btn) {
+			if (btn === 'yes') {
+				store.remove(grid.getSelectionModel().getSelection());
+				store.sync();
+			}
+		});
 	}
+
 });
 

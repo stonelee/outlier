@@ -1,6 +1,10 @@
 Ext.define('Outlier.model.timemanage.Record', {
 	extend: 'Ext.data.Model',
 	fields: [{
+		name: 'id',
+		type: 'int'
+	},
+	{
 		name: 'startTime',
 		type: 'date'
 	},

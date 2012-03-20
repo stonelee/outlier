@@ -3,7 +3,7 @@ Ext.define('Outlier.store.timemanage.Records', {
 	model: 'Outlier.model.timemanage.Record',
 	proxy: {
 		type: 'rest',
-		url: '/timemanage/api/v1/record',
+		url: '/timemanage/api/v1/record/',
 		reader: {
 			type: 'json',
 			root: 'objects'

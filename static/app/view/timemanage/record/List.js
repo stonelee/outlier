@@ -8,23 +8,40 @@ Ext.define('Outlier.view.timemanage.record.List', {
 		header: 'startTime',
 		dataIndex: 'startTime',
 		xtype: 'datecolumn',
-		format: 'H:i:s'
+		format: 'H:i:s',
+		editor: {
+			xtype: 'timefield',
+			allowBlank: false,
+			format: 'H:i:s'
+		}
 	},
 	{
 		header: 'endTime',
 		dataIndex: 'endTime',
 		xtype: 'datecolumn',
-		format: 'H:i:s'
+		format: 'H:i:s',
+		editor: {
+			xtype: 'timefield',
+			allowBlank: false,
+			format: 'H:i:s'
+		}
 	},
 	{
 		header: 'tag',
-		dataIndex: 'tag'
+		dataIndex: 'tag',
+		editor: {
+			allowBlank: false
+		}
 	},
 	{
 		header: 'content',
 		dataIndex: 'content',
-		flex: 1
+		flex: 1,
+		editor: {
+			allowBlank: false
+		}
 	}],
+
 	tbar: [{
 		xtype: 'displayfield',
 		fieldLabel: '当前日期',
@@ -32,8 +49,38 @@ Ext.define('Outlier.view.timemanage.record.List', {
 		width: 200
 	},
 	'-', {
-		xtype: 'button',
-		text: 'add'
-	}]
+		text: '添加',
+		action: 'add'
+	},
+	{
+		text: '删除',
+		action: 'del',
+		disabled: true
+	}],
+
+	initComponent: function() {
+		this.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+			autoCancel: false,
+			listeners: {
+				'edit': function(grid) {
+					grid.store.sync();
+				},
+				'canceledit': function(grid) {
+					if (grid.record.getId() === - 1) {
+						grid.store.removeAt(0);
+					}
+				}
+			}
+		});
+		this.plugins = [this.rowEditing];
+
+		this.callParent();
+	},
+
+	listeners: {
+		'selectionchange': function(view, records) {
+			this.down('button[action=del]').setDisabled(!records.length);
+		}
+	}
 });
 
