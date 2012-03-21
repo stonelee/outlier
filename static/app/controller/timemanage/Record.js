@@ -25,6 +25,9 @@ Ext.define('Outlier.controller.timemanage.Record', {
 			'timemanage_record_main datefield': {
 				change: this.onChangeDate
 			},
+			'timemanage_record_list': {
+				afterrender: this.onAfterRenderList
+			},
 			'timemanage_record_list button[action=add]': {
 				click: this.onAddRecord
 			},
@@ -172,6 +175,22 @@ Ext.define('Outlier.controller.timemanage.Record', {
 	/*
 	 *list
 	 */
+	onAfterRenderList: function(grid) {
+		var date = this.getTab().getActiveTab().date,
+		initDateFormat = 'Y-m-d',
+		initDate = Ext.Date.format(date, initDateFormat);
+
+		Ext.each(grid.query('datecolumn'), function(dcolumn) {
+			dcolumn.editor = {
+				xtype: 'timefield',
+				initDate: initDate,
+				initDateFormat: initDateFormat,
+				allowBlank: false,
+				format: 'H:i:s'
+			};
+		});
+	},
+
 	onAddRecord: function() {
 		var gridRowEditing = this.getGrid().rowEditing;
 		gridRowEditing.cancelEdit();

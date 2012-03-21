@@ -8,23 +8,13 @@ Ext.define('Outlier.view.timemanage.record.List', {
 		header: 'startTime',
 		dataIndex: 'startTime',
 		xtype: 'datecolumn',
-		format: 'H:i:s',
-		editor: {
-			xtype: 'timefield',
-			allowBlank: false,
-			format: 'H:i:s'
-		}
+		format: 'H:i:s'
 	},
 	{
 		header: 'endTime',
 		dataIndex: 'endTime',
 		xtype: 'datecolumn',
-		format: 'H:i:s',
-		editor: {
-			xtype: 'timefield',
-			allowBlank: false,
-			format: 'H:i:s'
-		}
+		format: 'H:i:s'
 	},
 	{
 		header: 'tag',
