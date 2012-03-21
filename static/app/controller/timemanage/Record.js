@@ -196,9 +196,7 @@ Ext.define('Outlier.controller.timemanage.Record', {
 		gridRowEditing.cancelEdit();
 
 		var store = this.getTimemanageRecordsStore();
-		store.insert(0, {
-			id: - 1
-		});
+		store.insert(0, {});
 
 		gridRowEditing.startEdit(0, 0);
 	},

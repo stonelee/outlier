@@ -5,6 +5,10 @@ Ext.define('Outlier.view.timemanage.record.List', {
 	border: 0,
 	store: 'timemanage.Records',
 	columns: [{
+		header: 'id',
+		dataIndex: 'id'
+	},
+	{
 		header: 'startTime',
 		dataIndex: 'startTime',
 		xtype: 'datecolumn',
@@ -56,7 +60,7 @@ Ext.define('Outlier.view.timemanage.record.List', {
 					grid.store.sync();
 				},
 				'canceledit': function(grid) {
-					if (grid.record.getId() === - 1) {
+					if (grid.record.getId() === 0) {
 						grid.store.removeAt(0);
 					}
 				}

@@ -1,6 +1,6 @@
 Ext.Loader.setConfig({
 	enabled: true,
-	disableCaching: true
+	disableCaching: false
 });
 
 Ext.application({
