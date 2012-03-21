@@ -8,6 +8,7 @@ class RecordResource(ModelResource):
     class Meta:
         queryset = Record.objects.all()
         authorization = Authorization()
+        always_return_data = True
         filtering={
             'startTime':('gte',),
             'endTime':('lte',),
