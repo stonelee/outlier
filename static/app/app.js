@@ -7,6 +7,6 @@ Ext.application({
 	name: 'Outlier',
 	appFolder: 'static/app',
 	autoCreateViewport: true,
-	controllers: ['Main', 'timemanage.Analyse', 'timemanage.Record']
+	controllers: ['Main', 'demo.Student','timemanage.Analyse', 'timemanage.Record']
 });
 

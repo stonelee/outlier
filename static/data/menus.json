@@ -10,4 +10,12 @@
         id:'timemanage_analyse',
         leaf:true
     }]
+},{
+    text:'demo',
+    expanded: true,
+    children:[{
+        text:'student',
+        id:'demo',
+        leaf:true
+    }]
 }]

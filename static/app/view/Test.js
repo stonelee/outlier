@@ -3,9 +3,9 @@ Ext.define('Outlier.view.Test', {
 	alias: 'widget.test',
 	layout: 'fit',
 	margin: '2 0 2 2',
-	requires: ['Outlier.view.timemanage.record.Main'],
+	requires: ['Outlier.view.demo.Main'],
 	items: [{
-		xtype: 'timemanage_record_main'
+		xtype: 'demo_main'
 	}]
 });
 
