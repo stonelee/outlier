@@ -199,6 +199,16 @@ Ext.define('Outlier.controller.timemanage.Record', {
 		store.insert(0, {});
 
 		gridRowEditing.startEdit(0, 0);
+
+		this.hideValides(gridRowEditing);
+	},
+
+	hideValides: function(gridRowEditing) {
+		var editor = gridRowEditing.getEditor();
+		Ext.each(editor.query('field'), function(field) {
+			field.clearInvalid();
+		});
+		editor.hideToolTip();
 	},
 
 	onDelRecord: function() {
