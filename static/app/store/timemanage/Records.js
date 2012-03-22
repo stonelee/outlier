@@ -4,9 +4,12 @@ Ext.define('Outlier.store.timemanage.Records', {
 	proxy: {
 		type: 'rest',
 		url: '/timemanage/api/v1/record/',
+		pageParam: null,
+		startParam: 'offset',
 		reader: {
 			type: 'json',
-			root: 'objects'
+			root: 'objects',
+			totalProperty: 'meta.total_count'
 		}
 	}
 });
