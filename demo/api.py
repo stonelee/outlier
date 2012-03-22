@@ -12,3 +12,6 @@ class StudentResource(ModelResource):
         filtering={
             'name':ALL,
         }
+
+    def alter_detail_data_to_serialize(self,request,data):
+        return {'objects':data}
