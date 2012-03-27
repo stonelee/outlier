@@ -1,0 +1,49 @@
+[{
+	text: 'a',
+	expanded: true,
+	checked: false,
+	children: [{
+		text: 'a1',
+		expanded: true,
+		checked: false,
+		children: [{
+			text: 'a11',
+			checked: false,
+			leaf: true
+		},
+		{
+			text: 'a12',
+			checked: false,
+			leaf: true
+		}]
+	},
+	{
+		text: 'a2',
+		checked: false,
+		leaf: true
+	}]
+},{
+	text: 'b',
+	expanded: true,
+	checked: false,
+	children: [{
+		text: 'b1',
+		expanded: true,
+		checked: false,
+		children: [{
+			text: 'b11',
+			checked: false,
+			leaf: true
+		},
+		{
+			text: 'b12',
+			checked: false,
+			leaf: true
+		}]
+	},
+	{
+		text: 'b2',
+		checked: false,
+		leaf: true
+	}]
+}]
