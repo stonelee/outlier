@@ -3,8 +3,10 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	alias: 'widget.util_comboboxtree',
 
 	displayField: 'text',
-	valueField: 'text',
+	valueField: 'id',
 	delimiter: ', ',
+	pickerHeight:200,
+	multiSelect:false,
 
 	initComponent: function() {
 		var me = this;
@@ -53,7 +55,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	onLoad: function() {
 		//var value = this.value;
 		//if (value) {
-		//this.setValue(value);
+			//this.setValue(value);
 		//}
 	},
 
@@ -66,15 +68,16 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		var me = this;
 		var picker = me.picker = Ext.create('Ext.tree.Panel', {
 			pickerField: me,
-			ownerCt: me.ownerCt,
 			floating: true,
 
 			store: this.store,
 			rootVisible: false,
-			height: this.height || 100,
+			height: this.pickerHeight,
 			autoScroll: true
 		});
 		me.mon(picker, {
+			load:me.onLoadPicker,
+			itemclick:me.onItemClick,
 			checkchange: me.onCheckChange,
 			scope: me
 		});
@@ -97,17 +100,71 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		}
 	},
 
+	onLoadPicker: function() {
+        this.syncSelection();
+	},
+
+	onItemClick:function(view,record,item){
+		if (!this.multiSelect){
+			this.setValue(record);
+			this.collapse();
+		}
+	},
+
 	onCheckChange: function(node, checked) {
 		this.setChildrenCheckValue(node, checked);
 		this.setParentCheckValue(node, checked);
+
 		var records = this.picker.getView().getChecked(),
 		i,
-		len;
+		len,leafRecords=[];
 		for (i = 0, len = records.length; i < len; i++) {
 			if (records[i].isLeaf()) {
-				console.log(records[i]);
+				leafRecords.push(records[i]);
 			}
 		}
+		this.setValue(leafRecords);
+	},
+
+    getDisplayValue: function() {
+        return this.displayTpl.apply(this.displayTplData);
+    },
+
+    setValue: function(value) {
+		var me=this,i, len,record,
+            models = [],
+            displayTplData = [],
+            processedValue = [];
+
+		value = Ext.Array.from(value);
+
+		for (i = 0, len = value.length; i < len; i++) {
+			record = value[i];
+			if (!record.isModel){
+				record=this.store.getNodeById(record);
+			}
+			if (record) {
+				models.push(record);
+				displayTplData.push(record.data);
+				processedValue.push(record.get(me.valueField));
+			}
+            else {
+				displayTplData.push(value[i]);
+				processedValue.push(value[i]);
+            }
+		}
+		me.value = me.multiSelect? processedValue : processedValue[0];
+        me.displayTplData = displayTplData; //store for getDisplayValue method
+		me.lastSelection = me.valueModels = models;
+
+        me.setRawValue(me.getDisplayValue());
+        me.checkChange();
+
+        me.applyEmptyText();
+	},
+
+    getValue: function() {
+		return this.value;
 	},
 
 	//选中parent，则所有层次children全部选中,取消则全部取消
@@ -125,7 +182,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	//选中，如果本级全部选中，则直接父节点选中,依次类推
 	setParentCheckValue: function(node, checked) {
 		var me = this;
-		me.findParents(node, function(pNode) {
+		node.bubble(function(pNode) {
 			if (checked === false) {
 				pNode.set('checked', false);
 			}
@@ -137,14 +194,6 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		});
 	},
 
-	findParents: function(node, fn) {
-		var pNode = node.parentNode;
-		while (pNode !== null) {
-			fn(pNode);
-			pNode = pNode.parentNode;
-		}
-	},
-
 	childrenAllChecked: function(node) {
 		var allChecked = true;
 		node.eachChild(function(n) {
@@ -154,7 +203,29 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 			}
 		});
 		return allChecked;
-	}
+	},
 
+    syncSelection: function() {
+        var me = this,
+            ExtArray = Ext.Array,
+            picker = me.picker,
+            selection, selModel;
+		//if (picker) {
+			//// From the value, find the Models that are in the store's current data
+			//selection = [];
+			//ExtArray.forEach(me.valueModels || [], function(value) {
+				//if (value && value.isModel && me.store.indexOf(value) >= 0) {
+					//selection.push(value);
+				//}
+			//});
+
+			//// Update the selection to match
+			//selModel = picker.getSelectionModel();
+			//selModel.deselectAll();
+			//if (selection.length) {
+				//selModel.select(selection);
+			//}
+		//}
+    }
 });
 

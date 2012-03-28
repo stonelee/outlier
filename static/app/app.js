@@ -1,7 +1,11 @@
 Ext.Loader.setConfig({
 	enabled: true,
-	disableCaching: false
+	disableCaching: true
 });
+
+Ext.Loader.setPath(
+	'Ext','static/extjs/src'
+);
 
 Ext.application({
 	name: 'Outlier',

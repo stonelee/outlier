@@ -10,31 +10,37 @@ Ext.define('Outlier.view.comboboxtree.Main', {
 		//否则不会自动选中
 		queryMode: 'local',
 		valueField: 'id',
+		value:[1,3,4],
 		displayField: 'name'
 	},
 	{
 		xtype: 'util_comboboxtree',
-		fieldLabel: 'comboboxtree',
-		store: 'Trees',
-		height: 200,
-		valueField: 'id',
-		displayField: 'name'
+		fieldLabel: 'single comboboxtree',
+		store: 'comboboxtree.NormalTrees',
+		//value:111
+	},
+	{
+		xtype: 'util_comboboxtree',
+		fieldLabel: 'multi comboboxtree',
+		store: 'comboboxtree.CheckTrees',
+		multiSelect:true,
+		//value:[111,112]
 	}],
 	listeners: {
 		render: function(form) {
 			var store = Ext.getStore('demo.Students');
 			store.load({
-				callback: function(records) {
-					form.down('combobox').setValue(records);
-				}
+				//callback: function(records) {
+					////form.down('combobox').setValue(records);
+					//form.down('combobox').setValue([1,3,4]);
+				//}
 			});
 		}
 	},
 	bbar: [{
 		text: 'save',
 		handler: function() {
-			console.log(this.up('form').down('combobox').getValue());
-			console.log(this.up('form').down('util_comboboxtree').getValue());
+			console.log(this.up('form').getValues());
 		}
 
 	}]

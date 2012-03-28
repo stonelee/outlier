@@ -1,47 +1,57 @@
 [{
+	id:1,
 	text: 'a',
 	expanded: true,
 	checked: false,
 	children: [{
+		id:11,
 		text: 'a1',
 		expanded: true,
 		checked: false,
 		children: [{
+			id:111,
 			text: 'a11',
 			checked: false,
 			leaf: true
 		},
 		{
+			id:112,
 			text: 'a12',
 			checked: false,
 			leaf: true
 		}]
 	},
 	{
+		id:12,
 		text: 'a2',
 		checked: false,
 		leaf: true
 	}]
 },{
+	id:2,
 	text: 'b',
 	expanded: true,
 	checked: false,
 	children: [{
+		id:21,
 		text: 'b1',
 		expanded: true,
 		checked: false,
 		children: [{
+			id:211,
 			text: 'b11',
 			checked: false,
 			leaf: true
 		},
 		{
+			id:212,
 			text: 'b12',
 			checked: false,
 			leaf: true
 		}]
 	},
 	{
+		id:22,
 		text: 'b2',
 		checked: false,
 		leaf: true
