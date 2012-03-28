@@ -16,15 +16,13 @@ Ext.define('Outlier.view.comboboxtree.Main', {
 	{
 		xtype: 'util_comboboxtree',
 		fieldLabel: 'single comboboxtree',
-		store: 'comboboxtree.NormalTrees',
-		//value:111
+		store: 'comboboxtree.NormalTrees'
 	},
 	{
 		xtype: 'util_comboboxtree',
 		fieldLabel: 'multi comboboxtree',
 		store: 'comboboxtree.CheckTrees',
-		multiSelect:true,
-		//value:[111,112]
+		multiSelect:true
 	}],
 	listeners: {
 		render: function(form) {

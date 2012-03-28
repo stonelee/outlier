@@ -5,8 +5,8 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	displayField: 'text',
 	valueField: 'id',
 	delimiter: ', ',
-	pickerHeight:200,
-	multiSelect:false,
+	pickerHeight: 200,
+	multiSelect: false,
 
 	initComponent: function() {
 		var me = this;
@@ -34,7 +34,6 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 			} else {
 				oldStore.un({
 					scope: me,
-					load: me.onLoad,
 					exception: me.collapse
 				});
 			}
@@ -46,17 +45,9 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 			me.store = Ext.data.StoreManager.lookup(store);
 			me.store.on({
 				scope: me,
-				load: me.onLoad,
 				exception: me.collapse
 			});
 		}
-	},
-
-	onLoad: function() {
-		//var value = this.value;
-		//if (value) {
-			//this.setValue(value);
-		//}
 	},
 
 	onDestroy: function() {
@@ -76,8 +67,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 			autoScroll: true
 		});
 		me.mon(picker, {
-			load:me.onLoadPicker,
-			itemclick:me.onItemClick,
+			itemclick: me.onItemClick,
 			checkchange: me.onCheckChange,
 			scope: me
 		});
@@ -100,12 +90,8 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		}
 	},
 
-	onLoadPicker: function() {
-        this.syncSelection();
-	},
-
-	onItemClick:function(view,record,item){
-		if (!this.multiSelect){
+	onItemClick: function(view, record, item) {
+		if (!this.multiSelect) {
 			this.setValue(record);
 			this.collapse();
 		}
@@ -117,7 +103,8 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 
 		var records = this.picker.getView().getChecked(),
 		i,
-		len,leafRecords=[];
+		len,
+		leafRecords = [];
 		for (i = 0, len = records.length; i < len; i++) {
 			if (records[i].isLeaf()) {
 				leafRecords.push(records[i]);
@@ -125,51 +112,6 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		}
 		this.setValue(leafRecords);
 	},
-
-    getDisplayValue: function() {
-        return this.displayTpl.apply(this.displayTplData);
-    },
-
-    setValue: function(value) {
-		var me=this,i, len,record,
-            models = [],
-            displayTplData = [],
-            processedValue = [];
-
-		value = Ext.Array.from(value);
-
-		for (i = 0, len = value.length; i < len; i++) {
-			record = value[i];
-			if (!record.isModel){
-				record=this.store.getNodeById(record);
-			}
-			if (record) {
-				models.push(record);
-				displayTplData.push(record.data);
-				processedValue.push(record.get(me.valueField));
-			}
-            else {
-				displayTplData.push(value[i]);
-				processedValue.push(value[i]);
-            }
-		}
-		me.value = me.multiSelect? processedValue : processedValue[0];
-        me.displayTplData = displayTplData; //store for getDisplayValue method
-		me.lastSelection = me.valueModels = models;
-
-        me.setRawValue(me.getDisplayValue());
-        me.checkChange();
-
-        me.applyEmptyText();
-	},
-
-    getValue: function() {
-		return this.value;
-	},
-
-    getSubmitValue: function() {
-        return this.getValue();
-    },
 
 	//选中parent，则所有层次children全部选中,取消则全部取消
 	setChildrenCheckValue: function(node, checked) {
@@ -209,27 +151,50 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		return allChecked;
 	},
 
-    syncSelection: function() {
-        var me = this,
-            ExtArray = Ext.Array,
-            picker = me.picker,
-            selection, selModel;
-		//if (picker) {
-			//// From the value, find the Models that are in the store's current data
-			//selection = [];
-			//ExtArray.forEach(me.valueModels || [], function(value) {
-				//if (value && value.isModel && me.store.indexOf(value) >= 0) {
-					//selection.push(value);
-				//}
-			//});
+	setValue: function(value) {
+		var me = this,
+		i, len, record, models = [],
+		displayTplData = [],
+		processedValue = [];
 
-			//// Update the selection to match
-			//selModel = picker.getSelectionModel();
-			//selModel.deselectAll();
-			//if (selection.length) {
-				//selModel.select(selection);
-			//}
-		//}
-    }
+		value = Ext.Array.from(value);
+
+		for (i = 0, len = value.length; i < len; i++) {
+			record = value[i];
+			if (!record.isModel) {
+				record = this.store.getNodeById(record);
+			}
+			if (record) {
+				models.push(record);
+				displayTplData.push(record.data);
+				processedValue.push(record.get(me.valueField));
+			}
+			else {
+				displayTplData.push(value[i]);
+				processedValue.push(value[i]);
+			}
+		}
+		me.value = me.multiSelect ? processedValue: processedValue[0];
+		me.displayTplData = displayTplData; //store for getDisplayValue method
+		me.lastSelection = me.valueModels = models;
+
+		me.setRawValue(me.getDisplayValue());
+		me.checkChange();
+
+		me.applyEmptyText();
+	},
+
+	getDisplayValue: function() {
+		return this.displayTpl.apply(this.displayTplData);
+	},
+
+	getValue: function() {
+		return this.value;
+	},
+
+	getSubmitValue: function() {
+		return this.getValue();
+	}
+
 });
 
