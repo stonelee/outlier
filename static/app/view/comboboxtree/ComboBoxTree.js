@@ -7,6 +7,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	delimiter: ', ',
 	pickerHeight: 200,
 	multiSelect: false,
+	editable:false,
 
 	initComponent: function() {
 		var me = this;
@@ -153,7 +154,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 
 	setValue: function(value) {
 		var me = this,
-		i, len, record, models = [],
+		i, len, record,
 		displayTplData = [],
 		processedValue = [];
 
@@ -165,7 +166,6 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 				record = this.store.getNodeById(record);
 			}
 			if (record) {
-				models.push(record);
 				displayTplData.push(record.data);
 				processedValue.push(record.get(me.valueField));
 			}
@@ -176,7 +176,6 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		}
 		me.value = me.multiSelect ? processedValue: processedValue[0];
 		me.displayTplData = displayTplData; //store for getDisplayValue method
-		me.lastSelection = me.valueModels = models;
 
 		me.setRawValue(me.getDisplayValue());
 		me.checkChange();
