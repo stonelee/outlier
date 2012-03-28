@@ -167,6 +167,10 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		return this.value;
 	},
 
+    getSubmitValue: function() {
+        return this.getValue();
+    },
+
 	//选中parent，则所有层次children全部选中,取消则全部取消
 	setChildrenCheckValue: function(node, checked) {
 		var me = this;
