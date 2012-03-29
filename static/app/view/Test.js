@@ -5,7 +5,7 @@ Ext.define('Outlier.view.Test', {
 	margin: '2 0 2 2',
 	requires: ['Outlier.view.comboboxtree.Main'],
 	items: [{
-		xtype: 'comboboxtree'
+		xtype: 'comboboxtree_main'
 	}]
 });
 

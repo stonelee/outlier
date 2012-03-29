@@ -7,12 +7,10 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	delimiter: ', ',
 	pickerHeight: 200,
 	multiSelect: false,
-	editable:false,
+	editable: false,
 
 	initComponent: function() {
 		var me = this;
-
-		me.bindStore(me.store || 'ext-empty-store', true);
 
 		if (!me.displayTpl) {
 			me.displayTpl = Ext.create('Ext.XTemplate', '<tpl for=".">' + '{[typeof values === "string" ? values : values["' + me.displayField + '"]]}' + '<tpl if="xindex < xcount">' + me.delimiter + '</tpl>' + '</tpl>');
@@ -23,57 +21,32 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		me.callParent();
 	},
 
-	bindStore: function(store, initial) {
-		var me = this,
-		oldStore = me.store;
-
-		// this code directly accesses this.picker, bc invoking getPicker
-		// would create it when we may be preping to destroy it
-		if (oldStore && ! initial) {
-			if (oldStore !== store && oldStore.autoDestroy) {
-				oldStore.destroyStore();
-			} else {
-				oldStore.un({
-					scope: me,
-					exception: me.collapse
-				});
-			}
-			if (!store) {
-				me.store = null;
-			}
-		}
-		if (store) {
-			me.store = Ext.data.StoreManager.lookup(store);
-			me.store.on({
-				scope: me,
-				exception: me.collapse
-			});
-		}
-	},
-
-	onDestroy: function() {
-		this.bindStore(null);
-		this.callParent();
-	},
-
 	createPicker: function() {
 		var me = this;
+
 		var picker = me.picker = Ext.create('Ext.tree.Panel', {
 			pickerField: me,
 			floating: true,
 
 			store: this.store,
-			displayField:this.displayField,
+			displayField: this.displayField,
 			rootVisible: false,
 			height: this.pickerHeight,
 			autoScroll: true
 		});
 		me.mon(picker, {
+			load: me.onLoadPicker,
 			itemclick: me.onItemClick,
 			checkchange: me.onCheckChange,
 			scope: me
 		});
 		return picker;
+	},
+
+	onLoadPicker: function(store, rootNode) {
+		if (this.multiSelect) {
+			this.setChildrenCheckValue(rootNode, false);
+		}
 	},
 
 	alignPicker: function() {
@@ -155,8 +128,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 
 	setValue: function(value) {
 		var me = this,
-		i, len, record,
-		displayTplData = [],
+		i, len, record, displayTplData = [],
 		processedValue = [];
 
 		value = Ext.Array.from(value);
@@ -177,7 +149,6 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		}
 		me.value = me.multiSelect ? processedValue: processedValue[0];
 		me.displayTplData = displayTplData; //store for getDisplayValue method
-
 		me.setRawValue(me.getDisplayValue());
 		me.checkChange();
 

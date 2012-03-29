@@ -21,7 +21,7 @@ Ext.define('Outlier.view.comboboxtree.Main', {
 	{
 		xtype: 'util_comboboxtree',
 		fieldLabel: 'multi comboboxtree',
-		store: 'comboboxtree.CheckTrees',
+		store: Ext.create('Outlier.store.comboboxtree.NormalTrees'),
 		multiSelect:true
 	}],
 	listeners: {
