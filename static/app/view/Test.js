@@ -3,9 +3,9 @@ Ext.define('Outlier.view.Test', {
 	alias: 'widget.test',
 	layout: 'fit',
 	margin: '2 0 2 2',
-	requires: ['Outlier.view.month.Main'],
+	requires: ['Outlier.view.comboboxtree.Main'],
 	items: [{
-		xtype: 'month_main'
+		xtype: 'comboboxtree'
 	}]
 });
 

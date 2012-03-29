@@ -63,6 +63,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 			floating: true,
 
 			store: this.store,
+			displayField:this.displayField,
 			rootVisible: false,
 			height: this.pickerHeight,
 			autoScroll: true
