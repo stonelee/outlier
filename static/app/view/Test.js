@@ -3,9 +3,9 @@ Ext.define('Outlier.view.Test', {
 	alias: 'widget.test',
 	layout: 'fit',
 	margin: '2 0 2 2',
-	requires: ['Outlier.view.comboboxtree.Main'],
+	requires: ['Outlier.view.suggest.Main'],
 	items: [{
-		xtype: 'comboboxtree_main'
+		xtype: 'suggest_main'
 	}]
 });
 

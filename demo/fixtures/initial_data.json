@@ -207,5 +207,40 @@
 	"fields": {
 		"name": "tom30"
 	}
+},
+{
+	"pk": 31,
+	"model": "demo.student",
+	"fields": {
+		"name": "张1"
+	}
+},
+{
+	"pk": 32,
+	"model": "demo.student",
+	"fields": {
+		"name": "张2"
+	}
+},
+{
+	"pk": 33,
+	"model": "demo.student",
+	"fields": {
+		"name": "张3"
+	}
+},
+{
+	"pk": 34,
+	"model": "demo.student",
+	"fields": {
+		"name": "王1"
+	}
+},
+{
+	"pk": 35,
+	"model": "demo.student",
+	"fields": {
+		"name": "王2"
+	}
 }]
 
