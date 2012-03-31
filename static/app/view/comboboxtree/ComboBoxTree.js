@@ -6,8 +6,12 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	valueField: 'id',
 	delimiter: ', ',
 	pickerHeight: 200,
-	multiSelect: false,
 	editable: false,
+
+	//多选
+	multiSelect: false,
+	//级联选择
+	cascadeSelect: false,
 
 	initComponent: function() {
 		var me = this;
@@ -47,6 +51,7 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 		if (this.multiSelect) {
 			this.setChildrenCheckValue(rootNode, false);
 		}
+		this.setChildrenLeaf(rootNode);
 	},
 
 	alignPicker: function() {
@@ -73,15 +78,21 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 	},
 
 	onCheckChange: function(node, checked) {
-		this.setChildrenCheckValue(node, checked);
-		this.setParentCheckValue(node, checked);
+		if (this.cascadeSelect) {
+			this.setChildrenCheckValue(node, checked);
+			this.setParentCheckValue(node, checked);
+		}
 
 		var records = this.picker.getView().getChecked(),
 		i,
 		len,
 		leafRecords = [];
 		for (i = 0, len = records.length; i < len; i++) {
-			if (records[i].isLeaf()) {
+			if (this.cascadeSelect) {
+				if (records[i].isLeaf()) {
+					leafRecords.push(records[i]);
+				}
+			} else {
 				leafRecords.push(records[i]);
 			}
 		}
@@ -124,6 +135,18 @@ Ext.define('Outlier.view.comboboxtree.ComboBoxTree', {
 			}
 		});
 		return allChecked;
+	},
+
+	setChildrenLeaf: function(node) {
+		var me = this;
+		if (node.hasChildNodes()) {
+			node.eachChild(function(n) {
+				me.setChildrenLeaf(n);
+			});
+		}
+		else {
+			node.set('leaf', true);
+		}
 	},
 
 	setValue: function(value) {

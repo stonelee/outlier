@@ -16,12 +16,22 @@ Ext.define('Outlier.view.comboboxtree.Main', {
 	{
 		xtype: 'util_comboboxtree',
 		fieldLabel: 'single comboboxtree',
-		store: 'comboboxtree.NormalTrees'
+		store:Ext.create('Ext.data.TreeStore',{
+			proxy: {
+				type: 'ajax',
+				url: 'static/data/simpleTrees.json'
+			}
+		})
 	},
 	{
 		xtype: 'util_comboboxtree',
 		fieldLabel: 'multi comboboxtree',
-		store: Ext.create('Outlier.store.comboboxtree.NormalTrees'),
+		store:Ext.create('Ext.data.TreeStore',{
+			proxy: {
+				type: 'ajax',
+				url: 'static/data/simpleTrees.json'
+			}
+		}),
 		multiSelect:true
 	}],
 	listeners: {
