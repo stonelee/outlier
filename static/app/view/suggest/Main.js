@@ -1,15 +1,17 @@
 Ext.define('Outlier.view.suggest.Main', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.suggest_main',
+	requires: ['Outlier.view.suggest.SuggestTextField'],
 
 	items: [{
-		xtype: 'combo',
-		fieldLabel: '筛选',
-		store: 'demo.Students',
-		displayField: 'name',
-		queryParam: 'name__startswith',
-		minChars: 0,
-		hideTrigger: true
+		xtype: 'textfield',
+		fieldLabel: 'textfield',
+		value: 'a'
+	},
+	{
+		xtype: 'suggest_text_field',
+		fieldLabel: 'suggest_text_field',
+		value: 'b'
 	}]
 });
 

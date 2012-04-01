@@ -5,10 +5,25 @@
     <title>Outlier</title>
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}extjs/resources/css/ext-all.css">
 	<style type="text/css">
+		.icon_delete{
+			background-image:url('static/images/delete.png');
+		}
 		/*monthpicker调整年月次序后需要对css进行调整*/
 		.x-monthpicker-months {
 			border-left: 1px solid #1B376C;
 			border-right:none;
+		}
+
+		/* ActionColumn icons */
+		.x-action-col-cell img {
+			height: 16px;
+			width: 16px;
+			cursor: pointer;
+		}
+
+		.x-ie6 .x-action-col-cell img {
+			position: relative;
+			top: -1px;
 		}
 	</style>
 </head>
