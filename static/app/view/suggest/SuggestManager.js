@@ -73,6 +73,7 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 					type: 'memory'
 				}
 			}),
+
 			columns: [{
 				text: 'name',
 				dataIndex: 'name',
@@ -88,6 +89,14 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 				handler: me.onDeleteGridItem,
 				scope: me
 			}],
+
+			viewConfig: {
+				plugins: {
+					ptype: 'gridviewdragdrop',
+					dragText:'拖动进行排序'
+				}
+			},
+
 			listeners: {
 				render: me.onRenderGrid,
 				scope: me
