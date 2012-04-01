@@ -29,7 +29,9 @@ Ext.define('Outlier.view.suggest.SuggestTextField', {
 			xtype: 'button',
 			text: this.text,
 			handler: function() {
-				me.manager = Ext.widget('suggest_manager');
+				me.manager = Ext.widget('suggest_manager', {
+					itemValues: me.down('textfield').getValue()
+				});
 				me.manager.on({
 					beforeclose: me.onManagerClose,
 					scope: me
@@ -40,7 +42,9 @@ Ext.define('Outlier.view.suggest.SuggestTextField', {
 
 	onManagerClose: function() {
 		var value = this.manager.value;
-		this.down('textfield').setValue(value);
+		if (value) {
+			this.down('textfield').setValue(value);
+		}
 	}
 });
 

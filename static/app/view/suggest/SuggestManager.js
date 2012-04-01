@@ -89,15 +89,25 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 				scope: me
 			}],
 			listeners: {
-				render: function() {
-					this.store.load();
-				}
+				render: me.onRenderGrid,
+				scope: me
 			}
 		};
 	},
 
 	onDeleteGridItem: function(grid, rowIndex, colIndex) {
 		grid.getStore().removeAt(rowIndex);
+	},
+
+	onRenderGrid: function() {
+		if (this.itemValues) {
+			var store = this.down('grid').getStore();
+			Ext.each(this.itemValues.split(','), function(name) {
+				store.add({
+					name: name
+				});
+			});
+		}
 	},
 
 	onOK: function() {
