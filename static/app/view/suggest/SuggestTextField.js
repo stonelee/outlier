@@ -25,6 +25,7 @@ Ext.define('Outlier.view.suggest.SuggestTextField', {
 		return {
 			xtype: 'textfield',
 			name: this.name,
+			readOnly:true,
 			flex: 1,
 			getSubmitValue: function() {
 				return me.getSubmitValue.apply(me);

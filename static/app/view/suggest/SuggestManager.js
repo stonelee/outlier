@@ -60,7 +60,7 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 		var model = me.store.findRecord(me.displayField, value);
 		if (model) {
 			var store = me.down('grid').getStore();
-			if (store.indexOf(model) === - 1) {
+			if (store.getById(model.getId()) === null) {
 				store.add(model);
 			}
 			else {
