@@ -3,9 +3,12 @@ Ext.Loader.setConfig({
 	disableCaching: true
 });
 
-Ext.Loader.setPath(
-	'Ext','static/extjs/src'
-);
+Ext.Loader.setPath({
+	Ext:'static/extjs/src',
+	Outlier:'static/app'
+});
+
+Ext.require('Outlier.store.demo.Students');
 
 Ext.application({
 	name: 'Outlier',

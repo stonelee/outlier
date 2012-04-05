@@ -28,11 +28,11 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 			layout: 'hbox',
 			items: [{
 				xtype: 'combo',
-				store: 'demo.Students',
-				displayField: 'name',
-				queryParam: 'name__startswith',
+				store: me.store,
+				displayField: me.displayField,
+				queryParam: me.queryParam,
+				emptyText: me.emptyText,
 				minChars: 0,
-				emptyText: '请输入人名进行筛选',
 				hideTrigger: true,
 				flex: 1,
 				listeners: {
@@ -53,30 +53,37 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 	},
 
 	onAddItem: function() {
-		var combo = this.down('combo');
-		var name = combo.getValue();
-		this.down('grid').getStore().add({
-			name: name
-		});
+		var me = this,
+		combo = this.down('combo'),
+		value = combo.getValue();
+
+		var model = me.store.findRecord(me.displayField, value);
+		if (model) {
+			var store = me.down('grid').getStore();
+			if (store.indexOf(model) === - 1) {
+				store.add(model);
+			}
+			else {
+				Ext.Msg.alert('提示', value + '已存在');
+			}
+		}
+		else {
+			Ext.Msg.alert('提示', value + '不存在');
+		}
+
 		combo.clearValue();
 	},
 
 	createGrid: function() {
 		var me = this;
+
 		return {
 			xtype: 'grid',
 			height: 200,
-			store: Ext.create('Ext.data.Store', {
-				model: 'Outlier.model.demo.Student',
-				data: [],
-				proxy: {
-					type: 'memory'
-				}
-			}),
 
 			columns: [{
-				text: 'name',
-				dataIndex: 'name',
+				text: '名称',
+				dataIndex: me.displayField,
 				flex: 1
 			},
 			{
@@ -93,12 +100,12 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 			viewConfig: {
 				plugins: {
 					ptype: 'gridviewdragdrop',
-					dragText:'拖动进行排序'
+					dragText: '拖动进行排序'
 				}
 			},
 
 			listeners: {
-				render: me.onRenderGrid,
+				afterrender: me.onRenderGrid,
 				scope: me
 			}
 		};
@@ -108,24 +115,26 @@ Ext.define('Outlier.view.suggest.SuggestManager', {
 		grid.getStore().removeAt(rowIndex);
 	},
 
-	onRenderGrid: function() {
+	onRenderGrid: function(grid) {
+		var me = this;
+		var store = Ext.create('Ext.data.Store', {
+			model: me.down('combo').getStore().model,
+			data: [],
+			proxy: {
+				type: 'memory'
+			}
+		});
+		grid.reconfigure(store);
+
 		if (this.itemValues) {
-			var store = this.down('grid').getStore();
-			Ext.each(this.itemValues.split(','), function(name) {
-				store.add({
-					name: name
-				});
+			Ext.each(this.itemValues, function(item) {
+				store.add(item);
 			});
 		}
 	},
 
 	onOK: function() {
-		var names = [],
-		values;
-		this.down('grid').getStore().each(function(record) {
-			names.push(record.get('name'));
-		});
-		this.value = names.join(',');
+		this.value = this.down('grid').getStore().getRange();
 		this.close();
 	}
 
