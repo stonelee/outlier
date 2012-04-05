@@ -3,9 +3,9 @@ Ext.define('Outlier.view.Test', {
 	alias: 'widget.test',
 	layout: 'fit',
 	margin: '2 0 2 2',
-	requires: ['Outlier.view.suggest.Main'],
+	requires: ['Outlier.view.fileupload.Main'],
 	items: [{
-		xtype: 'suggest_main'
+		xtype: 'fileupload_main'
 	}]
 });
 
